@@ -2,12 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/DharaniOps/demo.git'
-            }
-        }
-
         stage('Deploy') {
             steps {
                 sh 'source ~/ansible-venv/bin/activate && ansible-playbook -i inventory.ini deploy-app.yaml'
