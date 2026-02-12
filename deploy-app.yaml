@@ -1,0 +1,23 @@
+---
+- name: Deploy nginx app to Minikube
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  # Force Ansible to use Python inside your virtual environment
+  vars:
+    ansible_python_interpreter: /home/ubuntu/ansible-venv/bin/python
+
+  tasks:
+    - name: Apply nginx deployment
+      k8s:
+        kubeconfig: /home/ubuntu/.kube/config
+        state: present
+        definition: "{{ lookup('file', 'k8s-manifests/nginx-deployment.yaml') }}"
+
+    - name: Apply nginx service
+      k8s:
+        kubeconfig: /home/ubuntu/.kube/config
+        state: present
+        definition: "{{ lookup('file', 'k8s-manifests/nginx-service.yaml') }}"
+
